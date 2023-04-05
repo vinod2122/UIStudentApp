@@ -1,13 +1,21 @@
 import { useRef, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const StudentDelete=()=>{
     const sid=useRef(" ");
     const [res,setRes]=useState({});
+    const navigator=useNavigate();
     const my_func=()=>{
         axios.delete(`http://localhost:1996/vk/delete/${sid.current.value}`).then((posRes) => {
             const {data}=posRes;
             setRes(data);
-            document.write(`Deleted `);
+            if(data)
+            {
+                navigator("/home");
+            }
+            else{
+                navigator("/error");
+            }
         },(errRes) => {
             console.log(errRes);
         })
